@@ -1,0 +1,65 @@
+设置环境变量: export 变量名=值
+删除环境变量: unset 变量名
+观察所有变量(环境变量和自定义变量): set
+支持语系: locale
+
+命令别名: alias, unalias
+
+历史查询: history | grep ..., history 10
+删除历史: history -c
+执行历史命令: !10(line_num), !!(上一个命令), !al(最近以al开头的命令)
+
+排序: sort, wc, uniq
+
+    sort -r: 逆序
+    	wc file: 行 字数 字符数
+        	-l: 列出行, -w: 列出字, -m: 列出字符
+
+tee: 读取标准输入并保存到文件
+    	tee file
+    	tee file1 file2
+    	ping baidu.com | tee ping_log.txt, 双重重定向
+
+sed:
+    	sed -n '3p' file: 只打印第三行
+    	sed -n '3,9p' file: 打印第3-9行
+  	sed '2,5d' file: 输出文件内容但不打印2-5行
+
+文件对比: diff
+    	diff file1 file2
+文件补丁和升级:patch
+    	diff file1 file2 > file.patch
+   	更新: patch -p0 < file.patch
+    	还原: patch -R -p0 < file.patch
+
+cat: 输出文件
+   	cat -n: 从1开始对行编号
+	cat -b: 空行不编号
+	cat -s: 两行以上空白行变为一行空白
+
+touch: 修改文件时间, 文件不存在则新建, touch file
+
+locate: 查找文件位置, locate file_name  
+which: 查找可执行文件位置, witch ls
+
+od: 以八进制输出文件内容
+
+wc: 计算字数
+	wc -c: 只显示Bytes
+	wc -l: 只显示行数
+	wc -w: 只显示字数
+
+grep: 匹配
+	grep -A n file: 显示匹配和后面的n行
+	grep -B n file: 显示匹配和前面的n行
+	grep -C n file: 显示匹配和前后各n行
+使用带有通配符的rm命令时, 先用ls测试通配符
+
+df: 显示磁盘占用
+
+echo: 
+    echo -n: 不换行输出
+    echo -e: 处理特殊字符
+
+端口占用: lsof -i:1227
+          netstat -anp | grep 1227

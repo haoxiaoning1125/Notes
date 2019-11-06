@@ -1,0 +1,39 @@
+获取仓库: git init(本地新建), git clone [url](克隆现有)
+新建远程分支关联: git remote add origin git地址
+
+查看状态: git status (used before add or commit)
+
+跟踪文件: git add [filename], git add .
+    git add: 跟踪新文件, 
+             把已跟踪文件放入暂存区,
+             合并时将冲突文件标记为已解决
+
+暂存已修改文件: 
+
+放弃分支合并: git merge --abort
+
+回退版本: 
+	git log, git reset --hard 目标版本号
+    git log, git revert -n 需要反做的版本号
+
+git reset:
+    --mixed: 不删除工作空间改动, 撤销commit, 撤销add
+             git reset --mixed HEAD^ 等同于 git reset HEAD^
+    --soft: 不删除工作空间改动, 撤销commit, 不撤销add
+    --hard: 删除工作空间改动, 撤销commit, 撤销add
+
+放弃未add的修改: git checkout 'filename'
+                 git checkout .
+
+修改commit注释: git commit --amend
+
+比较两个分支的差异:
+    git log dev ^master (查看dev有,而master没有的)
+    git log master..dev (查看dev比master多提交了哪些内容)
+    git log dev...master (对比两分支不同)
+    git log --left-right dev...master(对比两分支不同并显示各提交的分支)
+
+查看配置: git config --list
+          git config --system --list (系统配置)
+          git config --global --list (当前用户配置)
+          git config --local --list (当前仓库配置)

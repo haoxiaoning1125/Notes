@@ -1,0 +1,18 @@
+配置文件: ~/.vimrc
+
+显示行号: set nu
+隐藏行号: set no
+删除一行: dd
+撤销上一步: u
+重复上一步: .
+复制: yy, 10yy
+粘贴: p
+前往某行: 10G
+前往最后一行: shift + G
+前往第一行: gg
+删除: x, 10x
+新增一行: o
+语法高亮: syntax on, syntax off
+高亮查找: set hlsearch
+展开: zo, zO(嵌套展开)
+折叠: zc, zC(嵌套折叠)
