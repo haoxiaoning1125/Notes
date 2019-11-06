@@ -1,5 +1,4 @@
 获取仓库: git init(本地新建), git clone [url](克隆现有)
-新建远程分支关联: git remote add origin git地址
 
 查看状态: git status (used before add or commit)
 
@@ -8,7 +7,73 @@
              把已跟踪文件放入暂存区,
              合并时将冲突文件标记为已解决
 
-暂存已修改文件: 
+查看文件变化: git diff
+    暂存前: git diff, 暂存后: git diff --cached
+
+提交更新: git commit
+    git commit -m: 信息和命令在同一行 
+    git commit -a: 跳过add, 将所有跟踪过的文件全部提交
+
+移除文件: git rm
+    git rm --cached [file]: 取消git跟踪, 但使文件保留在目录中
+
+移动文件: git mv
+    git mv [file_from] [file_to]
+    等价于: mv [file_from] [file_to]
+            git rm [file_from]
+            git add [file_to]
+
+查看提交历史: git log
+    git log -p: 显示每次提交的内容差异
+    git log -p -[n]: 显示最近n次提交的内容差异
+    git log --stat: 每次提交的简略统计信息
+    git log --pretty=[n]: 使用不同于默认格式的方式展示
+        n == oneline: 显示一行
+        n == format:"%h - %an, %ar : %s": 定制格式
+    git log --graph: 图形化展示
+    git log --since=[n]: 最近一段时间的提交
+        n == 2.years: 最近两年
+        n == 2.months/2.weeks/2.days/2.hours: ...
+        n == 2019-10-1: 2019-10-1 之后的提交
+    git log -S[str]: 添加或删除了字符串str的提交
+
+撤销操作:
+    重新提交: git commit --amend(修改提交名, 增添忘记提交的文件)
+    取消暂存的文件: git reset HEAD [file]
+    撤销对文件的修改: git checkout [file], git checkout .
+
+查看远程仓库: git remote
+    git remote -v: 显示简写和url
+    git remote add [short_name] [url]: 添加一个远程仓库并指定简写
+    git remote show [remote_name]: 查看远程仓库详细信息
+    git remote rename [old] [new]: 远程仓库重命名
+    git remote rm [remote_name]: 移除远程仓库
+
+    git fetch [remote_name]: 从远程仓库拉取所有本地没有的数据
+    git pull: 从服务器抓取数据并自动尝试合并到当前所在的分支
+    git push [remote_name] [branch_name]: 将本地commit提交到远程仓库
+    
+为某次提交添加标签: git tag
+    
+创建分支: git branch [b_name]
+    git branch: 查看当前分支
+    git branch -d [b_name]: 删除分支, -D: 强制删除
+    git branch -v: 查看每个分支的最后一次提交
+    git branch --merged: 查看哪些分支已合并到当前分支
+    git branch --not-merged: 查看所有包含未合并工作的分支
+切换分支: git checkout [b_name]
+合并分支: git checkout [b_name_1]
+          git merge [b_name_2]
+分支冲突: 
+
+
+
+
+
+
+
+
+
 
 放弃分支合并: git merge --abort
 
@@ -24,8 +89,6 @@ git reset:
 
 放弃未add的修改: git checkout 'filename'
                  git checkout .
-
-修改commit注释: git commit --amend
 
 比较两个分支的差异:
     git log dev ^master (查看dev有,而master没有的)
