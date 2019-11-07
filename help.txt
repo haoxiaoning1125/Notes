@@ -24,3 +24,5 @@ from operation import flush, Dao, scribewrite_kv_log, session
 
 PUZZLE: bingouser.collections
 
+端口占用: lsof -i:1227
+          netstat -anp | grep 1227
