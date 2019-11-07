@@ -1,0 +1,3 @@
+for...else: for 语句被break后, 跳过else语句, 否则执行else语句
+
+

@@ -64,17 +64,12 @@
 切换分支: git checkout [b_name]
 合并分支: git checkout [b_name_1]
           git merge [b_name_2]
-分支冲突: 
-
-
-
-
-
-
-
-
-
-
+分支合并冲突: 
+    git status: 查看冲突的文件
+    cat [f]
+    解决冲突
+    git add [f]: 将冲突的文件标记为已解决
+    git commit -m 'confilct fixed'
 放弃分支合并: git merge --abort
 
 回退版本: 
