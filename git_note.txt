@@ -10,6 +10,22 @@
              把已跟踪文件放入暂存区,
              合并时将冲突文件标记为已解决
 
+暂存改动: git stash
+    git stash: 将文件暂存
+    git stash save [message]: 暂存并添加备注
+    git stash list: 查看有哪些暂存
+    git stash show: 显示做了哪些改动, 默认显示第一个暂存, 
+        git stash show stash@{[num]}
+    git stash show -p: 显示第一个暂存的改动, 
+        git stash show stash@{[num]} -p 
+    git stash apply: 应用某个存储, 默认第一个, 
+        git stash apply stash@{[num]}
+    git stash pop: 恢复之前缓存的工作目录, 
+        git stash pop stash@{[num]}
+    git stash drop: 丢弃暂存, 
+        git stash drop stash@{[num]}
+    git stash clear: 清除所有暂存
+
 查看文件变化: git diff
     git diff: 查看未暂存文件的更新
     git diff --cached: 查看已暂存文件和上次提交时的差异

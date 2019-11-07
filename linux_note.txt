@@ -40,6 +40,7 @@ cat: 输出文件
 touch: 修改文件时间, 文件不存在则新建, touch file
 
 locate: 查找文件位置, locate file_name  
+
 which: 查找可执行文件位置, witch ls
 
 od: 以八进制输出文件内容
@@ -53,7 +54,11 @@ grep: 匹配
 	grep -A n file: 显示匹配和后面的n行
 	grep -B n file: 显示匹配和前面的n行
 	grep -C n file: 显示匹配和前后各n行
-使用带有通配符的rm命令时, 先用ls测试通配符
+
+rm: 删除文件
+    rm -rf [d]: 递归删除目录
+    rm *.{jpg,png}
+    使用带有通配符的rm命令时, 先用ls测试通配符
 
 df: 显示磁盘占用
 
