@@ -68,3 +68,6 @@ echo:
 
 端口占用: lsof -i:1227
           netstat -anp | grep 1227
+
+screen:
+    screen -X -S 32611 quit

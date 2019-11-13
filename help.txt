@@ -1,24 +1,32 @@
 重启: bingo/queue
 	./dev_restart.sh
+
 日志: potp_log
 	tail -f start*
 	tail -n 200 start* | grep something(匹配到二进制文件?)
 	tail -n 200 start* | grep -a something
     tail -n 200 start* | egrep "a|b"
     tail -n 200 start* | grep -E "a|b"
-网页端口配置: dev.cfg
+
 支付add_vipPoints: PAYMENT_VIP
-TRIP, SHELL: DAILY_TASK_EVENT
+
 游戏结算: bingo_get_chest_count
+
 THEMESALE_VIPPOINT = [
     [1, 20], [2, 30], [3, 40], [4, 50], [5, 70],
     [6, 90], [7, 100], [8, 130], [9, 150], [10, 180],
     [11, 200], [12, 250], [13, 250]
 ]
+
 网页: web.py, dev.cfg, newbingo.mako
+
 卡: 0-9, 分别为普通1-5星和传奇1-5星
+
 宝箱: 1,2,3,4: 铜,银,金,白金; 5,6,7,8,9: 1-5星传奇宝箱
+
 EVENT_DATE: 活动开始时间
+BIGENVENT_DATE: 活动时间
+update_bigevent_data, get_bigevent_data, get_or_init_bigevent_data
 
 from operation import flush, Dao, scribewrite_kv_log, session
 
@@ -26,3 +34,5 @@ PUZZLE: bingouser.collections
 
 端口占用: lsof -i:1227
           netstat -anp | grep 1227
+
+活动: get_events(), get_bigevent_data()
