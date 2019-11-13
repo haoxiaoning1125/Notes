@@ -26,6 +26,9 @@
         git stash drop stash@{[num]}
     git stash clear: 清除所有暂存
 
+显示对象: git show
+    git show [commit_id]: 显示某次提交的改动
+
 查看文件变化: git diff
     git diff: 查看未暂存文件的更新
     git diff --cached: 查看已暂存文件和上次提交时的差异
@@ -40,7 +43,10 @@
     git commit -a: 跳过add, 将所有跟踪过的文件全部提交
 
 移除文件: git rm
-    git rm --cached [file]: 取消git跟踪, 但使文件保留在目录中
+    git rm --cached [file]: 取消git跟踪, 保留本地文件
+    git rm --f [file]: 取消git跟踪, 删除本地文件
+    git rm -r --cached .
+    git rm -r --f .
 
 移动文件: git mv
     git mv [file_from] [file_to]

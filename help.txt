@@ -1,3 +1,5 @@
+Search "time.mktime" to close event or promotion
+
 重启: bingo/queue
 	./dev_restart.sh
 
@@ -32,7 +34,15 @@ from operation import flush, Dao, scribewrite_kv_log, session
 
 PUZZLE: bingouser.collections
 
-端口占用: lsof -i:1227
-          netstat -anp | grep 1227
+端口占用: 
+    lsof -i:1227
+    netstat -anp | grep 1227
 
-活动: get_events(), get_bigevent_data()
+活动刷新: 
+    get_events(), get_bigevent_data()
+    'last_event', 'bevent'
+
+促销信息:
+    bingo_login --> get_promotion_tony, ...
+    bingo_back_to_lobby --> back_to_lobby_get_promotion_lefttime
+
