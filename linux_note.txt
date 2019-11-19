@@ -1,5 +1,3 @@
-设置环境变量: export 变量名=值
-删除环境变量: unset 变量名
 观察所有变量(环境变量和自定义变量): set
 支持语系: locale
 
@@ -71,3 +69,20 @@ echo:
 
 screen:
     screen -X -S 32611 quit
+
+find: 查找文件
+    find [path] -name [name]: 按文件名查找
+    find [path] -perm [mode]: 按文件权限查找
+    find [path] -type [type]: 按文件类型查找
+        b: 块设备文件, c: 字符设备文件, d: 目录文件
+        p: 管道文件, f: 普通文件, l: 符号链接文件, s: 套接字文件
+    find [path] -size [+/-]n[cwbkMG]: 按文件大小查找
+    find [path] -user [uname]: 按文件所有者查找文件
+    find [path] -(a|c|m)min [n]:
+        查找最后n分钟被(访问|改变状态|修改)的文件
+    find [path] -(a|c|m)time [n]:
+        查找最后n*24小时被(访问|改变状态|修改)的文件
+    find [path] -newer [file]: 查找修改时间比file新的文件
+    find [path] -anewer [file]: 查找访问时间比file新的文件
+    find [path] -cnewer [file]: 查找状态改变时间比file新的文件
+
