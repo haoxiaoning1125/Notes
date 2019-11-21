@@ -1,5 +1,8 @@
 Search "time.mktime" to close event or promotion
 
+Pycharm:
+    搜索Class(文件): command + o
+
 重启: bingo/queue
 	./dev_restart.sh
 

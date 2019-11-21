@@ -3,6 +3,7 @@
     git clone [url](克隆现有)
     git clone --bare: 创建一个没有工作目录的git仓库副本
 
+新建分支: git branch [name]
 查看状态: git status (used before add or commit)
 
 跟踪文件: git add [filename], git add .
@@ -41,6 +42,7 @@
 提交更新: git commit
     git commit -m: 信息和命令在同一行 
     git commit -a: 跳过add, 将所有跟踪过的文件全部提交
+    git commit --amend: 重新提交
 
 移除文件: git rm
     git rm --cached [file]: 取消git跟踪, 保留本地文件
@@ -68,10 +70,21 @@
         n == 2019-10-1: 2019-10-1 之后的提交
     git log -S[str]: 添加或删除了字符串str的提交
 
-撤销操作:
-    重新提交: git commit --amend(修改提交名, 增添忘记提交的文件)
-    取消暂存的文件: git reset HEAD [file]
-    撤销对文件的修改: git checkout [file], git checkout .
+回退版本:
+    未add, 回滚一个文件:
+        git checkout -- [file]
+        <!拉取暂存取文件, 替换工作区文件>
+    已经add, 回滚一个文件:
+        git reset [file]
+        git reset [commit] [file]
+        git reset HEAD [file]
+        <!取消文件暂存, 保留修改>
+    已经add, 回滚整个工程:
+        git reset --hard [commit]
+        <!重置缓存区和工作目录的修改>
+    已经commit, 回滚整个工程:
+        git revert -n [commit] 
+        <!产生新的提交, 不删除原log>
 
 查看远程仓库: git remote
     git ls-remote: 获取远程引用的完整列表
@@ -120,9 +133,8 @@
                 | git rebase master server
     !!!不要对仓库外有副本的分支进行变基!!!
 
-回退版本: 
-	git log, git reset --hard 目标版本号
-    git log, git revert -n 需要反做的版本号
+回退单个文件:
+    git reset [commit] [file], git checkout [file]
 
 git reset:
     --mixed: 不删除工作空间改动, 撤销commit, 撤销add
@@ -143,3 +155,21 @@ git reset:
           git config --system --list (系统配置)
           git config --global --list (当前用户配置)
           git config --local --list (当前仓库配置)
+
+切换到某次提交: 
+    git checkout [commit] [file]: 将file切换到commit版本
+    git checkout [commit]: 将整个工作目录切换到commit版本
+
+回滚错误的合并:
+    init -> v1 -> v2 -> v3 -- faulty merge -> v4 -> vc3(master)
+        \  \            /                     /
+         \  d1  -->  d2  --> d3 --> d4(dev)  /
+          \                                 / 
+           c1  -->  c2 -------------------c3(other)
+    d2和v3的合并引入bug
+    git revert [commit] -m [1|2] , (1: v3, 2: d2)
+    提交历史变为:
+    init -> v1 -> v2 -> v3 -- faulty merge -> v4 -> vc3 -> rev3 (master)
+          \            /
+           d1  -->  d2  --> d3 --> d4  (dev)
+
