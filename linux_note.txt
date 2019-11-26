@@ -1,88 +1,137 @@
+-----------------------------------------------------------------------
 观察所有变量(环境变量和自定义变量): set
 支持语系: locale
-
 命令别名: alias, unalias
-
-历史查询: history | grep ..., history 10
-删除历史: history -c
-执行历史命令: !10(line_num), !!(上一个命令), !al(最近以al开头的命令)
-
-排序: sort, wc, uniq
-
-    sort -r: 逆序
-    	wc file: 行 字数 字符数
-        	-l: 列出行, -w: 列出字, -m: 列出字符
-
+命令历史:
+    历史查询: history | grep ..., history 10
+    删除历史: history -c
+    执行历史命令: !10(line_num), !!(上一个命令), !al(最近以al开头的命令)
 tee: 读取标准输入并保存到文件
     	tee file
     	tee file1 file2
     	ping baidu.com | tee ping_log.txt, 双重重定向
 
-sed:
+------------------------------------------------------------------------
+排序:
+    sort [file]: 按每行第一个字符排序
+    sort -r [file]: 反向排序
+    sort -t [str] -k [num]: 指定分隔符str, 并按照第num列排序
+    sort -n: 按数字方式排序
+去除重复内容:
+    uniq [file]
+    uniq -c [file]: 输出重复次数
+    sort [file] | uniq
+
+文件对比和升级:
+    对比: diff file1 file2
+    补丁: diff file1 file2 > file.patch
+   	更新: patch -p0 < file.patch
+    还原: patch -R -p0 < file.patch
+创建文件: 
+    touch: 修改文件时间, 文件不存在则新建
+    vim: ..
+文件权限: 
+    本人 | 同组 | 其他, r: 读, w: 写, x: 执行
+    chmod [755] [file]
+    444 r--r--r--
+    600 rw-------
+    644 rw-r--r--
+    666 rw-rw-rw-
+    700 rwx------
+    744 rwxr--r--
+    755 rwxr-xr-x
+    777 rwxrwxrwx
+输出文件:
+    cat: 
+   	    cat -n: 从1开始对行编号
+	    cat -b: 空行不编号
+	    cat -s: 两行以上空白行变为一行空白
+    less: less [file], q to quit
+    head: 前n行, head -n [line] [file]
+    tail: 后n行, tail -n [line] [file]
+          实时, tail -f [file]
+    od: 八进制输出
+    sed:
     	sed -n '3p' file: 只打印第三行
     	sed -n '3,9p' file: 打印第3-9行
-  	sed '2,5d' file: 输出文件内容但不打印2-5行
+  	    sed '2,5d' file: 输出文件内容但不打印2-5行
+查找文件:
+    查找可执行文件: which, whereis
+    locate: locate [file], 使用updatedb 更新数据
+    mdfind: (Mac)代替locate, mdfind [file]
+    find: 
+        find [path] -name [name]: 按文件名查找
+        find [path] -perm [mode]: 按文件权限查找
+        find [path] -type [type]: 按文件类型查找
+            b: 块设备文件, c: 字符设备文件, d: 目录文件
+            p: 管道文件, f: 普通文件, l: 符号链接文件, s: 套接字文件
+        find [path] -size [+/-]n[cwbkMG]: 按文件大小查找
+        find [path] -user [uname]: 按文件所有者查找文件
+        find [path] -(a|c|m)min [n]:
+            查找最后n分钟被(访问|改变状态|修改)的文件
+        find [path] -(a|c|m)time [n]:
+            查找最后n*24小时被(访问|改变状态|修改)的文件
+        find [path] -newer [file]: 查找修改时间比file新的文件
+        find [path] -anewer [file]: 查找访问时间比file新的文件
+        find [path] -cnewer [file]: 查找状态改变时间比file新的文件
+删除文件: 
+    rm:
+        rm -rf [d]: 递归删除目录
+        rm *.{jpg,png}
+        使用带有通配符的rm命令时, 先用ls测试通配符
+    清空: > [file]
+压缩, 解压: 
+    gzip [file]
+    gunzip [z_file]
 
-文件对比: diff
-    	diff file1 file2
-文件补丁和升级:patch
-    	diff file1 file2 > file.patch
-   	更新: patch -p0 < file.patch
-    	还原: patch -R -p0 < file.patch
+-------------------------------------------------------------------------
+搜索文本: 
+    grep [str] [file]
+    grep -i [str] [file]: 忽略大小写
+    grep -c [str] [file]: 多少行包含str
+    grep -v [str] [file]: 不包含str
+	grep -A n [str] [file]: 显示匹配和后面的n行
+	grep -B n [str] [file]: 显示匹配和前面的n行
+	grep -C n [str] [file]: 显示匹配和前后各n行
 
-cat: 输出文件
-   	cat -n: 从1开始对行编号
-	cat -b: 空行不编号
-	cat -s: 两行以上空白行变为一行空白
 
-touch: 修改文件时间, 文件不存在则新建, touch file
 
-locate: 查找文件位置, locate file_name  
+-------------------------------------------------------------------------
+端口占用: lsof -i:[port]
+          netstat -anp | grep [port]
+网络测试: 
+    ping [-ciw] [ip]:
+        -c: 指定次数, -i: 指定发送间隔, 
+        -w: 若没有回应, 则在指定超时时间后退出
+    host [ip]: 查询DNS记录
+    
+-------------------------------------------------------------------------
+查看进程:
+    ps:
+        ps -A: 列出所有进程
+        ps -a: 所有不和本终端有关的进程
+        ps -w: 显示加宽
+        ps -u: 显示有效使用者相关的进程
+    top:
+终止进程:
+    kill:
+        kill [signal] [pid]
+        signal: -1  |  重启
+                -9  |  强制kill
+                -15 |  正常结束
+查询进程打开的文件:
+    lsof [file]: 显示打开file的所有进程
+    lsof -c [str]: 显示COMMAND列中包含str的进程所有打开的文件
+    lsof -u [user]: 显示属于user进程打开的文件
+    lsof -g [gid]: 显示属于组gid的进程
+    lsof -i:[port]: 端口占用
+恢复被删除的文件: (有其他进程打开该文件)
+    lsof | grep [file]
+    (linux) cat /proc/[pid]/fd/2 > [file]
+进程优先级设置:
+    nice -n [num] [pname]: -20 <= num <= 19
+        ex: nice -n -10 ./load.sh
+    renice: 修改已经启动的进程
+        renice [num] -p [pid]
 
-which: 查找可执行文件位置, witch ls
-
-od: 以八进制输出文件内容
-
-wc: 计算字数
-	wc -c: 只显示Bytes
-	wc -l: 只显示行数
-	wc -w: 只显示字数
-
-grep: 匹配
-	grep -A n file: 显示匹配和后面的n行
-	grep -B n file: 显示匹配和前面的n行
-	grep -C n file: 显示匹配和前后各n行
-
-rm: 删除文件
-    rm -rf [d]: 递归删除目录
-    rm *.{jpg,png}
-    使用带有通配符的rm命令时, 先用ls测试通配符
-
-df: 显示磁盘占用
-
-echo: 
-    echo -n: 不换行输出
-    echo -e: 处理特殊字符
-
-端口占用: lsof -i:1227
-          netstat -anp | grep 1227
-
-screen:
-    screen -X -S 32611 quit
-
-find: 查找文件
-    find [path] -name [name]: 按文件名查找
-    find [path] -perm [mode]: 按文件权限查找
-    find [path] -type [type]: 按文件类型查找
-        b: 块设备文件, c: 字符设备文件, d: 目录文件
-        p: 管道文件, f: 普通文件, l: 符号链接文件, s: 套接字文件
-    find [path] -size [+/-]n[cwbkMG]: 按文件大小查找
-    find [path] -user [uname]: 按文件所有者查找文件
-    find [path] -(a|c|m)min [n]:
-        查找最后n分钟被(访问|改变状态|修改)的文件
-    find [path] -(a|c|m)time [n]:
-        查找最后n*24小时被(访问|改变状态|修改)的文件
-    find [path] -newer [file]: 查找修改时间比file新的文件
-    find [path] -anewer [file]: 查找访问时间比file新的文件
-    find [path] -cnewer [file]: 查找状态改变时间比file新的文件
 

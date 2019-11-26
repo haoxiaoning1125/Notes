@@ -49,3 +49,8 @@ PUZZLE: bingouser.collections
     bingo_login --> get_promotion_tony, ...
     bingo_back_to_lobby --> back_to_lobby_get_promotion_lefttime
 
+ssh配置: ~/.ssh/config
+
+svn update:
+    报错: Node remains in conflict At revision ...
+    解决: svn revert --depth=infinity [file] (空白字符)

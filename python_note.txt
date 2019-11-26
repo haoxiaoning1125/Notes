@@ -1,3 +1,4 @@
 for...else: for 语句被break后, 跳过else语句, 否则执行else语句
 
-
+查看已加载的命名空间所有变量和函数:
+    locals(), globals(), dir()
