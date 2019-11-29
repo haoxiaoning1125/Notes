@@ -1,2 +1,0 @@
-linux
-http://billie66.github.io/TLCL/book/chap07.html

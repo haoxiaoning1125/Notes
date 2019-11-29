@@ -1,27 +1,5 @@
------------------------------------------------------------------------
-观察所有变量(环境变量和自定义变量): set
-支持语系: locale
-命令别名: alias, unalias
-命令历史:
-    历史查询: history | grep ..., history 10
-    删除历史: history -c
-    执行历史命令: !10(line_num), !!(上一个命令), !al(最近以al开头的命令)
-tee: 读取标准输入并保存到文件
-    	tee file
-    	tee file1 file2
-    	ping baidu.com | tee ping_log.txt, 双重重定向
-
 ------------------------------------------------------------------------
-排序:
-    sort [file]: 按每行第一个字符排序
-    sort -r [file]: 反向排序
-    sort -t [str] -k [num]: 指定分隔符str, 并按照第num列排序
-    sort -n: 按数字方式排序
-去除重复内容:
-    uniq [file]
-    uniq -c [file]: 输出重复次数
-    sort [file] | uniq
-
+/-*-文件-*-/
 文件对比和升级:
     对比: diff file1 file2
     补丁: diff file1 file2 > file.patch
@@ -32,6 +10,13 @@ tee: 读取标准输入并保存到文件
     vim: ..
 文件权限: 
     本人 | 同组 | 其他, r: 读, w: 写, x: 执行
+    --------------------------
+    | 默认权限 | 文件 | 目录 |
+    --------------------------
+    | root     | 644  | 755  |
+    --------------------------
+    | 普通用户 | 664  | 775  |
+    --------------------------
     chmod [755] [file]
     444 r--r--r--
     600 rw-------
@@ -41,6 +26,15 @@ tee: 读取标准输入并保存到文件
     744 rwxr--r--
     755 rwxr-xr-x
     777 rwxrwxrwx
+修改文件拥有者:
+    chown [uname] [file]
+    chown -R [uname] [file]: 递归修改目录
+    chown :[gname] [file]: 修改文件用户组
+    chown -R :[gname] [file]: 递归修稿文件用户组
+    chown [uname]:[gname]: 同时修改拥有者和用户组
+修改文件拥有组:
+    chgrp [gname] [file]
+    chgrp -R [gname] [file]: 递归修改目录
 输出文件:
     cat: 
    	    cat -n: 从1开始对行编号
@@ -83,29 +77,67 @@ tee: 读取标准输入并保存到文件
 压缩, 解压: 
     gzip [file]
     gunzip [z_file]
+链接:
+    硬链接: 
+        * 允许一个文件拥有多个有效路径名, 当最后一个硬链接被删除时,
+          释放文件的数据块和目录的链接.
+        * 不能为目录创建硬链接.
+        * 不同分区上的两个文件不能建立硬链接.
+        ln [f] [f_hard]: 创建指向f的硬链接f_hard
+    软链接: 
+        * 是一个包含了另一文件路径名的文件.
+        * 可以指向任意目录或文件, 可以跨文件系统.
+        * 删除软链接不会删除其指向的源文件.
+        * 删除源文件软链接会出现"断链".
+        ln -s [f] [f_soft]: 创建指向f的软链接f_soft
 
 -------------------------------------------------------------------------
+/-*-文本-*-/
 搜索文本: 
     grep [str] [file]
     grep -i [str] [file]: 忽略大小写
     grep -c [str] [file]: 多少行包含str
     grep -v [str] [file]: 不包含str
-	grep -A n [str] [file]: 显示匹配和后面的n行
-	grep -B n [str] [file]: 显示匹配和前面的n行
-	grep -C n [str] [file]: 显示匹配和前后各n行
-
-
+    grep -A n [str] [file]: 显示匹配和后面的n行
+    grep -B n [str] [file]: 显示匹配和前面的n行
+    grep -C n [str] [file]: 显示匹配和前后各n行
+排序:
+    sort [file]: 按每行第一个字符排序
+    sort -r [file]: 反向排序
+    sort -t [str] -k [num]: 指定分隔符str, 并按照第num列排序
+    sort -n: 按数字方式排序
+去除重复内容:
+    cat [file] | uniq
+    cat [file] | sort | uniq
+    cat [file] | sort | uniq -c [file]: 输出重复次数
+截取文本:
+    cat [file] | cut -f[m] -d '[s]': 按分隔符s截取, 并显示第m列
+    cat [file] | cut -f[m, n] -d '[s]': 按分隔符s截取, 并显示第m列和第n列
+    cat [file] | cut -f[m-n] -d '[s]': 按分隔符s截取, 并显示第m列到第n列
+文本转换:
+    cat [file] | tr '[a-z]' '[A-Z]': 小写转大写
+    cat [file] | tr -d ':': 去除冒号
+文本合并:
+    paste [file_1] [file_2]: 按行合并
+    paste -d[s] [file_1] [file_2]: 指定分隔符s并按行合并
+分割大文件:
+    split
 
 -------------------------------------------------------------------------
+/-*-网络-*-/
 端口占用: lsof -i:[port]
           netstat -anp | grep [port]
 网络测试: 
     ping [-ciw] [ip]:
         -c: 指定次数, -i: 指定发送间隔, 
         -w: 若没有回应, 则在指定超时时间后退出
-    host [ip]: 查询DNS记录
+    host [domain]: 查询DNS记录, 返回域名的IP
+    traceroute [domain]:
+        -m [ttl]: 设置最大存活ttl大小
+        -n: 直接使用ip地址
     
 -------------------------------------------------------------------------
+/-*-进程-*-/
 查看进程:
     ps:
         ps -A: 列出所有进程
@@ -119,6 +151,8 @@ tee: 读取标准输入并保存到文件
         signal: -1  |  重启
                 -9  |  强制kill
                 -15 |  正常结束
+                -19 |  暂停
+    killall [name]: 终止所有名为name的进程
 查询进程打开的文件:
     lsof [file]: 显示打开file的所有进程
     lsof -c [str]: 显示COMMAND列中包含str的进程所有打开的文件
@@ -133,5 +167,86 @@ tee: 读取标准输入并保存到文件
         ex: nice -n -10 ./load.sh
     renice: 修改已经启动的进程
         renice [num] -p [pid]
+任务的前后台切换:
+    ctrl + z: 暂停任务
+    jobs: 查看所有被暂停的任务
+    bg [jid]: 将任务放至后台运行 
+    fg [jid]: 将任务放至前台运行
 
+--------------------------------------------------------------------------
+/-*-用户-*-/
+root用户(uid = 0), 普通用户(uid >= 500), 系统用户(1 <= uid <= 499)
+查看uid: id
+查看gid: groups
+查看用户: 
+    who, users, w
+    finger: 显示系统登录用户
+    finger [uname]: 显示该用户详细信息
+查看自己的用户名: whoami
+新增用户: 
+    useradd [uname]: 自动分配uid
+    useradd -u [uid] [uname]: 指定uid
+    useradd -d [path] [uname]: 指定home目录
+修改密码: 
+    passwd [uname]: (root用户)
+    passwd: (普通用户)
+修改用户:
+    usermod -d [path] -m [uname]: 设置home目录
+    usermod -L [uname]: 冻结用户
+    usermod -U [uname]: 解锁用户
+删除用户: userdel [uname]
+增加用户组: groupadd [gname]
+删除用户组: groupdel [gname], (有用户属于试图删除的组, 则会删除失败)
+切换用户:
+    su: 切换到root用户
+    su -: 切换到root并应用root的应用环境
+    su - [uname]: 切换到uname
+    sudo [cmd]: 以root身份执行命令, (先配置/etc/sudoers)
+例行任务管理:
+    单一时刻执行一次任务:
+        at now +30 minutes              |  at 00:00 2019-11-25
+            at> /sbin/shutdown -h now   |    at> /sbin/shutdown
+            at> <EOT>, (ctrl + d)       |    at> <EOF>
+        at -c [id]: 查看作业细节
+        特殊写法:
+            at 20:00 2019-11-25
+            at now +10 min
+            at 17:00 tomorrow
+            at 6:00 pm + 3 days
+        查看任务列表: atq
+        删除定时任务: atrm [id]
+    周期性执行任务:
+        cron
 
+-------------------------------------------------------------------------
+/-*-命令-*-/ 
+命令别名: 
+    alias [cmd] [acmd]
+    alias只在当前shell环境中有效, 永久生效需要在~/.bashrc中写入
+删除别名:
+    unalias [acmd]
+    unalias -a: 删除当前shell环境中所有别名
+命令历史:
+    历史查询: history | grep ..., history 10
+    删除历史: history -c
+    执行历史命令: !10(line_num), !!(上一个命令), !al(最近以al开头的命令)
+确定内建命令:
+    type [cmd]
+
+-------------------------------------------------------------------------
+/-*-ssh-*-/
+配置:
+    ~/.ssh/config
+挂载:
+    sshfs [user]@[ip]:[path1] [path2]
+卸载:
+    umount [path]
+远程登录:
+    ssh [user]@[ip]
+
+-------------------------------------------------------------------------
+/-*-其他-*-/
+读取标准输入并保存到文件:
+    tee [file]
+    tee -a [file]: 追加而不是覆盖
+    tee [file1] [file2]: 保存到两个文件

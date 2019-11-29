@@ -1,3 +1,38 @@
+确认系统shell版本: cat /etc/shells
+#!/bin/bash: 指明解释器的位置
+运行脚本:
+    <1> chmod 755 [file]
+        ./[file]
+    <2> bash [file]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 shell脚本参数
 $$: shell本身的PID
 $!: shell最后运行的后台进程的PID

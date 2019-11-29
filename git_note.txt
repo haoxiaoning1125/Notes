@@ -96,6 +96,10 @@
     git fetch [remote_name]: 从远程仓库拉取所有本地没有的数据
     git pull: 从服务器抓取数据并自动尝试合并到当前所在的分支
     git push [remote_name] [branch_name]: 将本地commit提交到远程仓库
+    git push error: failed to push some refs to git
+        原因: 文件缺失
+        解决: git pull --rebase origin/master
+              git push
     
 标签: git tag
     git tag: 列出当前仓库所有标签
