@@ -29,6 +29,8 @@ THEMESALE_VIPPOINT = [
 
 宝箱: 1,2,3,4: 铜,银,金,白金; 5,6,7,8,9: 1-5星传奇宝箱
 
+添加主题: bingo_config.py, bingo_config_new.py
+
 EVENT_DATE: 活动开始时间
 BIGENVENT_DATE: 活动时间
 update_bigevent_data, get_bigevent_data, get_or_init_bigevent_data
@@ -54,3 +56,22 @@ ssh配置: ~/.ssh/config
 svn update:
     报错: Node remains in conflict At revision ...
     解决: svn revert --depth=infinity [file] (空白字符)
+
+重启服务:
+    1、重启memcache，
+        memcached -p 11211 -m 64m –d                        # party
+        memcached -p 11311 -m 64m –d	                    # journey
+    2、重启eventserver
+        /usr/bin/eventserver
+    3、重启房间、机器人进程
+        cd ~/bingo/newbingo/newmanager; python newmanager   # party
+        cd ~/bingo/megebingo; python thread_manager.py      # jounery
+    4、重启potp服务器
+        cd ~/bingo/queue; ./ restart_potp.sh                # party
+        cd ~/bingo/queue; ./ megaroom_restart.sh            # jounery
+    5、重启网页
+        cd ~/bingo/newbingo; python web.py                  # 8026
+    6、重启svn
+        sudo killall svnserver                              # 释放旧端口
+        svnserver -d -r /home/bigfish/svn/svnrepos/bigfish  # 重启
+    
