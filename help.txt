@@ -1,4 +1,20 @@
-Search "time.mktime" to close event or promotion
+重启服务:
+    1、重启memcache，
+        memcached -p 11211 -m 64m –d                        # party
+        memcached -p 11311 -m 64m –d	                    # journey
+    2、重启eventserver
+        /usr/bin/eventserver
+    3、重启房间、机器人进程
+        cd ~/bingo/newbingo/newmanager; python newmanager   # party
+        cd ~/bingo/megebingo; python thread_manager.py      # jounery
+    4、重启potp服务器
+        cd ~/bingo/queue; ./ restart_potp.sh                # party
+        cd ~/bingo/queue; ./ megaroom_restart.sh            # jounery
+    5、重启网页
+        cd ~/bingo/newbingo; python web.py                  # 8026
+    6、重启svn
+        sudo killall svnserver                              # 释放旧端口
+        svnserver -d -r /home/bigfish/svn/svnrepos/bigfish  # 重启 
 
 Pycharm:
     搜索Class(文件): command + o
@@ -17,11 +33,15 @@ Pycharm:
 
 游戏结算: bingo_get_chest_count
 
+促销配置由后端发给前端, 不要各自配
+
 THEMESALE_VIPPOINT = [
     [1, 20], [2, 30], [3, 40], [4, 50], [5, 70],
     [6, 90], [7, 100], [8, 130], [9, 150], [10, 180],
     [11, 200], [12, 250], [13, 250]
 ]
+
+道具投放配置在前端
 
 网页: web.py, dev.cfg, newbingo.mako
 
@@ -50,6 +70,7 @@ PUZZLE: bingouser.collections
 促销信息:
     bingo_login --> get_promotion_tony, ...
     bingo_back_to_lobby --> back_to_lobby_get_promotion_lefttime
+月末促销: get_month_deal_lefttime()
 
 ssh配置: ~/.ssh/config
 
@@ -57,21 +78,7 @@ svn update:
     报错: Node remains in conflict At revision ...
     解决: svn revert --depth=infinity [file] (空白字符)
 
-重启服务:
-    1、重启memcache，
-        memcached -p 11211 -m 64m –d                        # party
-        memcached -p 11311 -m 64m –d	                    # journey
-    2、重启eventserver
-        /usr/bin/eventserver
-    3、重启房间、机器人进程
-        cd ~/bingo/newbingo/newmanager; python newmanager   # party
-        cd ~/bingo/megebingo; python thread_manager.py      # jounery
-    4、重启potp服务器
-        cd ~/bingo/queue; ./ restart_potp.sh                # party
-        cd ~/bingo/queue; ./ megaroom_restart.sh            # jounery
-    5、重启网页
-        cd ~/bingo/newbingo; python web.py                  # 8026
-    6、重启svn
-        sudo killall svnserver                              # 释放旧端口
-        svnserver -d -r /home/bigfish/svn/svnrepos/bigfish  # 重启
-    
+get_or_init_bigevent_data(bingouser, eventtime, key, lefttime):
+    eventtime(GARDEN) == eventtime(SHELL)
+    没有触发if, 初始化shell
+    key = 'last_event', key = 'bevent'

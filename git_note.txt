@@ -87,6 +87,7 @@
         <!产生新的提交, 不删除原log>
 
 查看远程仓库: git remote
+    git remote show origin
     git ls-remote: 获取远程引用的完整列表
     git remote -v: 显示简写和url
     git remote add [short_name] [url]: 添加一个远程仓库并指定简写
@@ -100,6 +101,7 @@
         原因: 文件缺失
         解决: git pull --rebase origin/master
               git push
+    git push --set-upstream origin master: 首次将代码推到远程仓库
     
 标签: git tag
     git tag: 列出当前仓库所有标签

@@ -1,4 +1,15 @@
 for...else: for 语句被break后, 跳过else语句, 否则执行else语句
 
 查看已加载的命名空间所有变量和函数:
-    locals(), globals(), dir()
+locals(), globals(), dir()
+
+init.py 文件定义了包的属性和方法。
+其实它可以什么也不定义;
+可以只是一个空文件, 但是必须存在。
+如果 init.py 不存在, 这个目录就仅仅是一个目录, 而不是一个包,
+它就不能被导入或者包含其它的模块和嵌套包
+
+datetime转time:
+    pass
+time转datetime:
+    pass
